@@ -44,6 +44,11 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
      * Find all loans for a specific member by status
      */
     List<Loan> findByMemberAndStatus(Member member, LoanStatus status);
+
+    /**
+     * Find loans by status (non-paged)
+     */
+    List<Loan> findByStatus(LoanStatus status);
     
     /**
      * Find all loans for a specific book
