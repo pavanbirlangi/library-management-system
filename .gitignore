@@ -1,0 +1,52 @@
+# ===== BACKEND (Spring Boot - Maven) =====
+/target/
+/.mvn/
+/.mvnw
+/mvnw.cmd
+!src/main/**/application*.yml
+!src/main/**/application*.properties
+*.log
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# ===== FRONTEND (React + Vite) =====
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Vite
+.vite/
+*.tsbuildinfo
+
+# Testing
+coverage/
+*.lcov
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# ===== COMMON =====
+*.log
+*.bak
+*.tmp

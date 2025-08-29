@@ -1,0 +1,122 @@
+lms-backend/
+├─ pom.xml
+├─ README.md
+├─ src/
+│  └─ main/
+│     ├─ java/
+│     │  └─ com/
+│     │     └─ backend/
+│     │        ├─ BackendAppliaction.java
+│     │        │
+│     │        ├─ controller/                       # REST endpoints (exact API list)
+│     │        │  ├─ HealthController.java          # GET /
+│     │        │  ├─ AuthController.java            # /auth/login, /auth/register, /auth/logout
+│     │        │  ├─ BookController.java            # /api/books, /api/books/{id}, /api/books/search
+│     │        │  ├─ UserController.java            # /api/users, /api/users/{id}, /api/users/username/{username}
+│     │        │  ├─ MemberController.java          # /api/members, /api/members/{id}, /loans, /fines
+│     │        │  ├─ LoanController.java            # /api/loans...
+│     │        │  ├─ LendingController.java         # /api/lending/issue, /api/lending/return, /api/lending/due/{memberId}
+│     │        │  ├─ ReservationController.java     # /api/reservations/...
+│     │        │  └─ ReportController.java          # /api/reports/most-borrowed, /api/reports/overdue
+│     │        │
+│     │        ├─ service/                          # Business logic (interfaces)
+│     │        │  ├─ AuthService.java
+│     │        │  ├─ BookService.java
+│     │        │  ├─ UserService.java
+│     │        │  ├─ MemberService.java
+│     │        │  ├─ LoanService.java
+│     │        │  ├─ LendingService.java
+│     │        │  ├─ ReservationService.java
+│     │        │  ├─ FineService.java
+│     │        │  └─ ReportService.java
+│     │        │
+│     │        ├─ service/impl/                     # Business logic (implementations)
+│     │        │  ├─ AuthServiceImpl.java
+│     │        │  ├─ BookServiceImpl.java
+│     │        │  ├─ UserServiceImpl.java
+│     │        │  ├─ MemberServiceImpl.java
+│     │        │  ├─ LoanServiceImpl.java
+│     │        │  ├─ LendingServiceImpl.java
+│     │        │  ├─ ReservationServiceImpl.java
+│     │        │  ├─ FineServiceImpl.java
+│     │        │  └─ ReportServiceImpl.java
+│     │        │
+│     │        ├─ repository/                       # Spring Data JPA repos
+│     │        │  ├─ UserRepository.java
+│     │        │  ├─ MemberRepository.java
+│     │        │  ├─ BookRepository.java
+│     │        │  ├─ LoanRepository.java
+│     │        │  ├─ FineRepository.java
+│     │        │  └─ ReservationRepository.java
+│     │        │
+│     │        ├─ model/                            # Entities + enums (align with schema.sql)
+│     │        │  ├─ entity/
+│     │        │  │  ├─ User.java
+│     │        │  │  ├─ Member.java
+│     │        │  │  ├─ Book.java
+│     │        │  │  ├─ Loan.java
+│     │        │  │  ├─ Fine.java
+│     │        │  │  └─ Reservation.java
+│     │        │  └─ enums/
+│     │        │     ├─ Role.java                   # ADMIN, LIBRARIAN, MEMBER
+│     │        │     ├─ UserStatus.java             # ACTIVE, SUSPENDED
+│     │        │     ├─ LoanStatus.java             # ACTIVE, RETURNED
+│     │        │     ├─ FineStatus.java             # PENDING, SETTLED
+│     │        │     └─ ReservationStatus.java      # ACTIVE, CANCELLED, FULFILLED, EXPIRED
+│     │        │
+│     │        ├─ dto/                              # Request/response shapes (no code yet; just files)
+│     │        │  ├─ auth/
+│     │        │  │  ├─ LoginRequest.java
+│     │        │  │  ├─ LoginResponse.java          # { token }
+│     │        │  │  └─ RegisterRequest.java        # member self-register
+│     │        │  ├─ book/
+│     │        │  │  ├─ BookRequest.java
+│     │        │  │  └─ BookResponse.java
+│     │        │  ├─ user/
+│     │        │  │  ├─ CreateUserRequest.java      # ADMIN creates LIBRARIAN|MEMBER
+│     │        │  │  ├─ UpdateUserRequest.java
+│     │        │  │  └─ UserResponse.java
+│     │        │  ├─ member/
+│     │        │  │  ├─ MemberRequest.java
+│     │        │  │  └─ MemberResponse.java
+│     │        │  ├─ loan/
+│     │        │  │  └─ LoanResponse.java
+│     │        │  ├─ lending/
+│     │        │  │  ├─ IssueRequest.java           # { memberId?, bookId } (memberId inferred for M)
+│     │        │  │  └─ ReturnRequest.java          # { loanId }
+│     │        │  ├─ reservation/
+│     │        │  │  ├─ ReservationResponse.java
+│     │        │  │  └─ ReserveRequest.java         # (if ever needed; path vars cover basics)
+│     │        │  ├─ fine/
+│     │        │  │  ├─ PayFineRequest.java         # { fineId }
+│     │        │  │  └─ FineResponse.java
+│     │        │  ├─ report/
+│     │        │  │  ├─ MostBorrowedResponse.java
+│     │        │  │  └─ OverdueResponse.java
+│     │        │  └─ common/
+│     │        │     ├─ ErrorResponse.java          # { error:{code,message} }
+│     │        │     └─ PageResponse.java           # standard paged wrapper
+│     │        │
+│     │        ├─ security/                         # JWT + RBAC
+│     │        │  ├─ SecurityConfig.java
+│     │        │  ├─ JwtAuthenticationFilter.java
+│     │        │  ├─ JwtTokenProvider.java
+│     │        │  ├─ JwtAuthenticationEntryPoint.java
+│     │        │  └─ CustomUserDetailsService.java
+│     │        │
+│     │        ├─ exception/                        # Error mapping
+│     │        │  ├─ GlobalExceptionHandler.java
+│     │        │  ├─ NotFoundException.java
+│     │        │  ├─ BadRequestException.java
+│     │        │  ├─ ConflictException.java
+│     │        │  └─ AccessDeniedAppException.java
+│     │        │
+│     │        └─ config/
+│     │           └─ OpenApiConfig.java             # swagger-ui setup (springdoc)
+│     │
+│     └─ resources/
+│        ├─ application.properties                  # DB/JWT/basic config
+│        ├─ schema.sql                              # the SQL you asked (created already)
+│        └─ data.sql                                # optional seed rows (dev-only)
+│
+└─ .gitignore
